@@ -1,0 +1,37 @@
+﻿@model IEnumerable<ItVitae_RepairShop_project8.Models.PartModel>
+
+@{
+    ViewBag.Title = "PartsList";
+}
+
+<h2>PartsList</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PartId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PartName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PartPrice)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PartId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PartName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PartPrice)
+        </td>
+    </tr>
+}
+
+</table>
