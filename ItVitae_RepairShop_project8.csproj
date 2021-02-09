@@ -125,14 +125,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\EmployeeModel.cs" />
-    <Compile Include="Models\ImageLinkModel.cs" />
-    <Compile Include="Models\ImageModel.cs" />
-    <Compile Include="Models\OrderModel.cs" />
-    <Compile Include="Models\PartLinkModel.cs" />
-    <Compile Include="Models\PartModel.cs" />
-    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\ViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\ModelProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -170,7 +165,18 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Order\AddPart.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Order\OrderList.cshtml" />
+    <Content Include="Views\Order\EditOrder.cshtml" />
+    <Content Include="Views\Order\CreateOrder.cshtml" />
+    <Content Include="Views\Order\CreateEmployee.cshtml" />
+    <Content Include="Views\Order\EditEmployee.cshtml" />
+    <Content Include="Views\Order\EmployeesList.cshtml" />
+    <Content Include="Views\Order\OrderDetails.cshtml" />
+    <Content Include="Views\Order\EditPart.cshtml" />
+    <Content Include="Views\Order\CreateUser.cshtml" />
+    <Content Include="Views\Order\RegisterUser.cshtml" />
+    <Content Include="Views\Order\EditUser.cshtml" />
     <Content Include="Views\Order\PartsList.cshtml" />
   </ItemGroup>
   <ItemGroup>

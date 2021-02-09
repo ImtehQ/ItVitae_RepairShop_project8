@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>"</h2>
+
+<h2>General</h2>
+<li>@Html.ActionLink("Overview orders",     "OrderList",        "Order")</li>
+<br>
+<h2>Users</h2>
+<li>@Html.ActionLink("Register new user",   "CreateUser",       "Order")</li>
+<li>@Html.ActionLink("Create order",        "CreateOrder",      "Order")</li>
+<br>
+<h2>Employees</h2>
+<li>@Html.ActionLink("Overview parts",      "PartsList",        "Order")</li>
+<br>
+<h2>Admin</h2>
+<li>@Html.ActionLink("Create new user",     "CreateUser",       "Order")</li>
+<li>@Html.ActionLink("Create new employee", "CreateEmployee",   "Order")</li>
+<li>@Html.ActionLink("Add new part",        "AddPart",          "Order")</li>
+<li>@Html.ActionLink("Overview Users",      "UserList",         "Order")</li>
+<li>@Html.ActionLink("Overview Employees",  "EmployeesList",    "Order")</li>
+
+

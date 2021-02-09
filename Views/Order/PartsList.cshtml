@@ -6,6 +6,9 @@
 
 <h2>PartsList</h2>
 
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="table">
     <tr>
         <th>
@@ -30,6 +33,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PartPrice)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditPart", new { id=item.Id }) 
         </td>
     </tr>
 }
