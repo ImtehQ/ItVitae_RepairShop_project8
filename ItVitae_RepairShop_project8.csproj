@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Dapper.2.0.78\lib\net461\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -127,6 +130,9 @@
     </Compile>
     <Compile Include="Models\ViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepairShopData\Access\SqlDataAccess.cs" />
+    <Compile Include="RepairShopData\Models\DataModels.cs" />
+    <Compile Include="RepairShopData\Scripts\DataProcessors.cs" />
     <Compile Include="Scripts\ModelProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -194,12 +200,6 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RepairShopData\RepairShopData.csproj">
-      <Project>{168eef90-b8e7-4836-baa2-fbe7c3d3f83a}</Project>
-      <Name>RepairShopData</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
