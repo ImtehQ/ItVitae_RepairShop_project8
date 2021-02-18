@@ -14,19 +14,17 @@
         <h4>OrderModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.OrderId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.OrderId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.OrderId, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.OrderId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.OrderId)
         </div>
+    </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.PartLinkId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PartLinkId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PartLinkId, "", new { @class = "text-danger" })
+                @Html.DisplayFor(model => model.PartLinkId)
             </div>
         </div>
 
@@ -49,7 +47,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.OrderDiscription, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.OrderDiscription, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.OrderDiscription, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.OrderDiscription, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -71,9 +69,16 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.OrderStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.OrderStatusLabel, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.OrderStatus, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("Order." + nameof(Model.OrderStatusLabel), 
+               new SelectList(Model.Statuses.Distinct().ToList(), 
+               "Id", 
+               "StatusDescription", 
+               Model.Order.StatusId), 
+               new { @class = "form-control" })
+
+
                 @Html.ValidationMessageFor(model => model.OrderStatus, "", new { @class = "text-danger" })
             </div>
         </div>

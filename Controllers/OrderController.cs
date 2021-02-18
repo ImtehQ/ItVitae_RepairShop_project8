@@ -9,13 +9,11 @@ namespace ItVitae_RepairShop_project8.Controllers
 {
     public class OrderController : Controller
     {
+
         public ActionResult Index()
         {
             return View();
         }
-
-
-
         //---------------------------------------------------------------------------------------------
         //=============================================================================================
         //---------------------------------------------------------------------------------------------
@@ -25,93 +23,65 @@ namespace ItVitae_RepairShop_project8.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddImage(PartModel partModel)
+        public ActionResult AddImage(ImageModel imageModel)
         {
-            if (ModelState.IsValid)
-            {
-               // ViewBag.successState = CreatePart(partModel.PartId, partModel.PartName, partModel.PartPrice);
-            }
-            else
-            {
-                ViewBag.message = "You did it wrong >:(";
-            }
-
+            DataProcessors.Create<ImageModel>(imageModel, "Images");
             return View();
         }
-
         //---------------------------------------------------------------------------------------------
         //=============================================================================================
         //---------------------------------------------------------------------------------------------
         public ActionResult OrderList()
         {
-            List<OrderModel> OrdersList = new List<OrderModel>();
-            var data = OrderProcessor.Load();
-            foreach (var row in data)
-            {
-                OrdersList.Add(new OrderModel { OrderId = row.OrderId, PartLinkId = row.PartLinkId, UserId = row.UserId, EmployeeId = row.EmployeeId, OrderDiscription = row.OrderDiscription, ImageID = row.ImageID, OrderPrice = row.OrderPrice, OrderStatus = row.OrderStatus });
-            }
-
-            return View(OrdersList);
+            return View(DataProcessors.ListEverything<OrderModel>("Orders"));
         }
         public ActionResult CreateOrder()
         {
-            var x1 = DataProcessors.Create<OrderModel>(new OrderModel { Id = 6 }, "Orders");
-            var x2 = DataProcessors.Update<OrderModel>(new OrderModel { Id = 6 }, "Orders", "Id");
-            var x3 = DataProcessors.ListAll<OrderModel>(new OrderModel { Id = 6 }, "Orders");
-            var x4 = DataProcessors.ListOne<OrderModel>(new OrderModel { Id = 6 }, "Orders", "Id");
-
             return View();
         }
         [HttpPost]
         public ActionResult CreateOrder(OrderModel orderModel)
         {
-            OrderProcessor.Create(orderModel.PartLinkId, orderModel.UserId, orderModel.EmployeeId, orderModel.OrderDiscription, orderModel.ImageID, orderModel.OrderPrice, orderModel.OrderStatus);
+            DataProcessors.Create(orderModel, "Orders");
             return View();
         }
-        public ActionResult EditOrder(int orderId)
+        public ActionResult EditOrder(int OrderId)
         {
-            return View();
+            OrderModel o = DataProcessors.OneById<OrderModel>(OrderId, "Orders");
+            List<OrderStatus> orderStatuses = DataProcessors.ListEverything<OrderStatus>("orderStatuses");
+            List<SelectListItem> Statuseslist = new List<SelectListItem>();
+            foreach (var item in orderStatuses)
+            {
+                Statuseslist.Add(new SelectListItem { Text = item.Text, Value = item.Value });
+            }
+
+            ViewBag.statusDropDown = Statuseslist;
+
+            o.OrderStatusLabel = (StatusType)o.OrderStatus; //Small patch
+            return View(o);
         }
         [HttpPost]
         public ActionResult EditOrder(OrderModel orderModel)
         {
-            OrderProcessor.Update(orderModel.Id, orderModel.OrderId, orderModel.PartLinkId, orderModel.UserId, orderModel.EmployeeId, orderModel.OrderDiscription, orderModel.ImageID, orderModel.OrderPrice, orderModel.OrderStatus);
-            return View();
+            orderModel.OrderStatus = (int)orderModel.OrderStatusLabel;
+            DataProcessors.Update(orderModel, "Orders", new List<string>{"OrderStatusLabel"});
+
+            return RedirectToAction("OrderDetails", orderModel);
         }
-        public ActionResult OrderDetails(int orderId)
+        public ActionResult OrderDetails(OrderModel orderModel)
         {
-            var data = OrderProcessor.Load();
-            var row = (OrderModel)data.Select(o => o.OrderId == orderId);
-            var orderModelDetails = new OrderModel { 
-                OrderId = row.OrderId, 
-                PartLinkId = row.PartLinkId, 
-                UserId = row.UserId, 
-                EmployeeId = row.EmployeeId, 
-                OrderDiscription = row.OrderDiscription, 
-                ImageID = row.ImageID, 
-                OrderPrice = row.OrderPrice, 
-                OrderStatus = row.OrderStatus };
-
-
-            return View(orderModelDetails);
+            return View(DataProcessors.Details(orderModel, "Orders"));
+        }
+        public ActionResult DeleteOrder(OrderModel orderModel)
+        {
+            return View();
         }
         //---------------------------------------------------------------------------------------------
         //=============================================================================================
         //---------------------------------------------------------------------------------------------
         public ActionResult PartsList()
         {
-            List<PartModel> PartsList = new List<PartModel>();
-
-            var data = PartProcessor.Load();
-            var x = data.Where(d => d.Id > 0);
-
-
-            foreach (var row in data)
-            {
-                PartsList.Add(new PartModel { PartId = row.PartId, PartName = row.PartName, PartPrice = row.PartPrice });
-            }
-
-            return View(PartsList);
+            return View(DataProcessors.ListEverything<PartModel>("ComputerParts"));
         }
         public ActionResult CreatePart()
         {
@@ -121,39 +91,19 @@ namespace ItVitae_RepairShop_project8.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreatePart(PartModel partModel)
         {
-            if(ModelState.IsValid)
-            {
-                ViewBag.successState = PartProcessor.Create(partModel.PartId, partModel.PartName, partModel.PartPrice);
-            }
-            else
-            {
-                ViewBag.message = "You did it wrong >:(";
-            }
-
+            DataProcessors.Create<PartModel>(partModel, "ComputerParts");
             return View();
         }
 
-        public ActionResult EditPart(int Id)
+        public ActionResult EditPart(int PartId)
         {
-            //Cant return object of type PartModel, omdat front and back is niet het zelfde.
-            //data uit de database is van een andere type en kan je niet uitzelzen, zonder een klote manier 
-            //Hele front en back los makeen om deze manier is alles maar niet veel makelijker. ik geef ik.
-
-            return View();
+            return View(DataProcessors.OneById<PartModel>(PartId, "ComputerParts"));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditPart(PartModel partModel)
         {
-            if (ModelState.IsValid)
-            {
-                ViewBag.successState = PartProcessor.Update(partModel.Id, partModel.PartId, partModel.PartName, partModel.PartPrice);
-            }
-            else
-            {
-                ViewBag.message = "You did it wrong >:(";
-            }
-
+            DataProcessors.Update(partModel, "ComputerParts");
             return View();
         }
         //---------------------------------------------------------------------------------------------
@@ -161,22 +111,14 @@ namespace ItVitae_RepairShop_project8.Controllers
         //---------------------------------------------------------------------------------------------
         public ActionResult RegisterUser()
         {
-            ViewBag.message = "Page not added yet!";
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult RegisterUser(UserModel userModel)
         {
-            if (ModelState.IsValid)
-            {
-                ViewBag.successState = UserProcessor.Create(userModel.UserId, userModel.UserName, userModel.UserEmail, userModel.Auth, true);
-            }
-            else
-            {
-                ViewBag.message = "You did it wrong >:(";
-            }
-
+            //Add fancy stuff here
+            DataProcessors.Create<UserModel>(userModel, "Users");
             return View();
         }
         public ActionResult CreateUser()
@@ -187,33 +129,25 @@ namespace ItVitae_RepairShop_project8.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateUser(UserModel userModel)
         {
-            if (ModelState.IsValid)
-            {
-                ViewBag.successState = UserProcessor.Create(userModel.UserId, userModel.UserName, userModel.UserEmail, userModel.Auth, false);
-            }
-            else
-            {
-                ViewBag.message = "You did it wrong >:(";
-            }
-
+            DataProcessors.Create<UserModel>(userModel, "Users");
             return View();
         }
-        public ActionResult EditUser()
+        public ActionResult EditUser(int UserId)
         {
-
-            return View();
+            var x = DataProcessors.OneById<UserModel>(UserId, "Users");
+            return View(x);
         }
         [HttpPost]
         public ActionResult EditUser(UserModel userModel)
         {
-            UserProcessor.Update(userModel.Id, userModel.UserId, userModel.UserName, userModel.UserEmail, userModel.Auth, false);
+            DataProcessors.Update(userModel, "Users");
             return View();
         }
 
         [HttpPost]
         public ActionResult DeleteUser(UserModel userModel)
         {
-            UserProcessor.Remove(userModel.Id);
+            DataProcessors.Delete("Users", userModel.Id.ToString());
             return View();
         }
         //---------------------------------------------------------------------------------------------
@@ -226,30 +160,22 @@ namespace ItVitae_RepairShop_project8.Controllers
         [HttpPost]
         public ActionResult CreateEmployee(EmployeeModel employeeModel)
         {
-            EmployeeProcessor.Create(employeeModel.EmployeeId, employeeModel.EmployeeEmailAddress, employeeModel.EmployeeFirstName, employeeModel.EmployeeLastName, employeeModel.EmployeePay, employeeModel.Auth);
+            DataProcessors.Create<EmployeeModel>(employeeModel, "Employees");
             return View();
         }
-        public ActionResult EditEmployee()
+        public ActionResult EditEmployee(int EmployeeId)
         {
-            //EmployeeProcessor.Load();
-            return View();
+            return View(DataProcessors.OneById<EmployeeModel>(EmployeeId, "Employees"));
         }
         [HttpPost]
         public ActionResult EditEmployee(EmployeeModel employeeModel)
         {
-            EmployeeProcessor.Update(employeeModel.Id, employeeModel.EmployeeId, employeeModel.EmployeeEmailAddress, employeeModel.EmployeeFirstName, employeeModel.EmployeeLastName, employeeModel.EmployeePay, employeeModel.Auth);
+            DataProcessors.Update(employeeModel, "Employees");
             return View();
         }
         public ActionResult EmployeesList()
         {
-            List<EmployeeModel> EmployeesList = new List<EmployeeModel>();
-            var data = EmployeeProcessor.Load();
-            foreach (var row in data)
-            {
-                EmployeesList.Add(new EmployeeModel { EmployeeId = row.EmployeeId, EmployeeEmailAddress = row.EmployeeEmailAddress, EmployeeFirstName = row.EmployeeFirstName, EmployeeLastName = row.EmployeeLastName, EmployeePay = row.EmployeePay, Auth = row.Auth });
-            }
-
-            return View(EmployeesList);
+            return View(DataProcessors.ListEverything<EmployeeModel>("Employees"));
         }
     }
 }

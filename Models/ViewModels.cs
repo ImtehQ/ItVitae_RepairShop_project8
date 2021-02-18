@@ -5,6 +5,14 @@ using System.Web;
 
 namespace ItVitae_RepairShop_project8.Models
 {
+    public enum StatusType
+    {
+        Afwachting = 0,
+        Behandeling = 1,
+        WachtOpOnderdelen = 2,
+        Klaar = 3
+    }
+
     public class ViewModels
     {
         
@@ -64,5 +72,11 @@ namespace ItVitae_RepairShop_project8.Models
         public int ImageID { get; set; }
         public double OrderPrice { get; set; }
         public int OrderStatus { get; set; }
+        public StatusType OrderStatusLabel { get; set; }
+    }
+    public class OrderStatus
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
     }
 }
