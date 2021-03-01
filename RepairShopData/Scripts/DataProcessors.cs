@@ -1,11 +1,8 @@
 ﻿using ItVitae_RepairShop_project8.RepairShopData.Access;
-using ItVitae_RepairShop_project8.RepairShopData.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ItVitae_RepairShop_project8.RepairShopData.Scripts
 {

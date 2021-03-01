@@ -4,6 +4,9 @@ using System.Web.Mvc;
 using System.Linq;
 using System.Net;
 using ItVitae_RepairShop_project8.RepairShopData.Scripts;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNetCore.Identity;
 
 namespace ItVitae_RepairShop_project8.Controllers
 {
